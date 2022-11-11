@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "324965904297",
+    "project_id": "covidassistant-ac34f",
+    "storage_bucket": "covidassistant-ac34f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324965904297:android:2160cb675fdfda9b599eb8",
+        "android_client_info": {
+          "package_name": "com.example.covid_assistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324965904297-oklqqilbu825nrjgpn0sr8pi1q065j8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoaSQxOgmLL3CU7bWydXfcV-HNkeH3v4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324965904297-oklqqilbu825nrjgpn0sr8pi1q065j8m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
