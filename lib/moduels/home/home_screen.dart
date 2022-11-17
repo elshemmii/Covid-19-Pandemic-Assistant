@@ -36,78 +36,81 @@ class HomeScreen extends StatelessWidget {
               ))
         ],
       ),
-      body: Expanded(
-        child: Container(
-            color: Colors.black,
-            child: Stack(
-              children: <Widget>[
-                Positioned.fill(
-                    child: Opacity(
-                  opacity: 0.3,
-                  child: Image.asset(
-                    'assets/run.png',
-                    fit: BoxFit.cover,
-                  ),
-                )),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        ClipOval(
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            color: Colors.white,
-                            alignment: Alignment.center,
-                            child: Image.asset('assets/background.png'),
-                          ),
+      body: Container(
+          color: Colors.black,
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                  child: Opacity(
+                opacity: 0.3,
+                child: Image.asset(
+                  'assets/run.png',
+                  fit: BoxFit.cover,
+                ),
+              )),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      ClipOval(
+                        child: Container(
+                          width: 110,
+                          height: 110,
+                          color: Colors.white,
+                          alignment: Alignment.center,
+                          child: Image.asset('assets/background.png'),
                         ),
-                        Text(
-                          'Welcome to Covid-19 Assistant, ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      ),
+                      SizedBox(height: 40),
+                      Text(
+                        'Welcome to Covid-19 Assistant, ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(
-                          height: 10,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      _userUid(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        'i will help you to \n make a simple check up',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
                         ),
-                        _userUid(),
-                        SizedBox(
-                          height: 15,
+                      ),
+                      SizedBox(height: 30),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          // push navigator to the symptoms screen
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => symptomss()));
+                        },
+                        icon: Icon(
+                          Icons.navigate_next,
+                          size: 30,
+                          color: Colors.white,
                         ),
-                        Text(
-                          'i will help you to \n make a simple check up',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        ElevatedButton(
-                          child: Text('Next',
-                              style: TextStyle(color: Colors.white)),
-                          onPressed: () {
-                            // push navigator to the symptoms screen
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => symptomss()));
-                          },
-                        ),
-                      ],
-                    ),
+                        label: Text('Next',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            )),
-      ),
+              ),
+            ],
+          )),
     );
   }
 }
