@@ -2,6 +2,7 @@ import 'package:covid_assistant/moduels/register_screen/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_assistant/auth.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,22 +10,25 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var formKey = GlobalKey<FormState>();
+  var formKey = GlobalKey<FormState>(); //form key to validate forms
 
-  bool passwordObscure = true;
+  bool passwordObscure = true; //bool to toggle password field
 
-  String? errorMessage = '';
+  String? errorMessage = ''; // error message to catch
 
-  bool isLogin = true;
+  bool isLogin = true; //bool to check if user is already login to select route
 
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController =
+      TextEditingController(); //email controller to get what's inside e-mail form field
 
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordController =
+      TextEditingController(); //password controller to get what's inside e-mail form field
 
-//future function to sign in wit email and pass
   Future<void> signInWithEmailAndPassword() async {
+    //future function to sign in with email and pass ( Authentication)
     try {
       await Auth().signInWithEmailAndPassword(
+        // sign in method
         email: emailController.text,
         password: passwordController.text,
       );
@@ -35,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+// error message displayed
   Widget _errorMessage() {
     return Text(
       errorMessage == '' ? '' : 'Hmm? $errorMessage',
@@ -75,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       prefixIcon: Icon(Icons.email_rounded),
                       border: OutlineInputBorder(),
                     ),
+                    //Validator for e-mail form field
                     validator: (value) {
                       if (value != null && value.isEmpty) {
                         return 'E-MAIL ADDRESS MUST NOT BE EMPTY';
@@ -89,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     maxLength: 8,
                     keyboardType: TextInputType.text,
                     controller: passwordController,
+                    //password toggle bool
                     obscureText: passwordObscure,
                     //This will obscure text dynamically
                     decoration: InputDecoration(
@@ -99,20 +106,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       prefixIcon: Icon(Icons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          // Based on passwordVisible state choose the icon
+                          // Based on passwordObscure state choose the icon
                           passwordObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                              ? Icons.visibility //show pass
+                              : Icons.visibility_off, //hide pass
                           color: Theme.of(context).primaryColorDark,
                         ),
                         onPressed: () {
-                          // Update the state i.e. toogle the state of passwordVisible variable
+                          // Update the state i.e. toggle the state of passwordObscure bool from true to false or otherwise
                           setState(() {
-                            passwordObscure = !passwordObscure;
+                            passwordObscure =
+                                !passwordObscure; // toggling bool state
                           });
                         },
                       ),
                     ),
+                    //Validator for pass form field
                     validator: (value) {
                       if (value != null && value.isEmpty) {
                         return 'PASSWORD MUST NOT BE EMPTY';
@@ -137,13 +146,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(fontSize: 24, color: Colors.white),
                     ),
                     onPressed: () {
-                      // Validate returns true if the form is valid, or false otherwise.
+                      // checks if the previous forms are filled in or not if true ==> login
                       if (formKey.currentState!.validate()) {
                         signInWithEmailAndPassword();
                       }
                     },
                   ),
                   SizedBox(height: 10),
+                  //display error message if there's one
                   _errorMessage(),
                   SizedBox(
                     height: 10.0,
@@ -156,6 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
+                          //pushing navigation for register screen
                           Navigator.push(
                               context,
                               MaterialPageRoute(

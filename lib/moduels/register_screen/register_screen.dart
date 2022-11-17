@@ -9,18 +9,35 @@ class registerScreen extends StatefulWidget {
 }
 
 class _registerScreenState extends State<registerScreen> {
-  String? errorMessage = '';
-  var nameController = TextEditingController();
-  final TextEditingController RegisterEmailController = TextEditingController();
+  String? errorMessage = ''; // declaration error message
+
+  var nameController = TextEditingController(); // name form-field  controller
+
+  final TextEditingController RegisterEmailController =
+      TextEditingController(); // email register - form field controller
+
   final TextEditingController RegisterPasswordController =
-      TextEditingController();
-  var phoneController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
-  bool passwordObscure = true;
-  static const List<String> list = <String>['Male', 'Female'];
-  String dropdownValue = list.first;
+      TextEditingController(); //  password register - form field controller
+
+  final TextEditingController ConfirmPasswordController =
+      TextEditingController(); //confirm password register - form field controller
+
+  var phoneController = TextEditingController(); // phone form field controller
+
+  var formKey = GlobalKey<FormState>(); //form key for validator for form fields
+
+  bool passwordObscure = true; // bool to toggle password show/ hide
+
+  static const List<String> list = <String>[
+    'Male',
+    'Female'
+  ]; //initialize list of gender
+
+  String dropdownValue =
+      list.first; // drop down default value to pop selected first in list
 
   Future<void> createUserWithEmailAndPassword() async {
+    //future function to sign up with email and pass ( Authentication)
     try {
       await Auth().createUserWithEmailAndPassword(
         email: RegisterEmailController.text,
@@ -34,6 +51,7 @@ class _registerScreenState extends State<registerScreen> {
   }
 
   Widget _errorMessage() {
+    //error message to be displayed
     return Text(
       errorMessage == '' ? '' : 'Hmm? $errorMessage',
       style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
@@ -48,6 +66,7 @@ class _registerScreenState extends State<registerScreen> {
           icon: Icon(Icons.arrow_back_rounded),
           color: Colors.white,
           onPressed: () {
+            //[pushing navigator to login screen
             Navigator.pop(context,
                 MaterialPageRoute(builder: (context) => LoginScreen()));
           },
@@ -84,6 +103,7 @@ class _registerScreenState extends State<registerScreen> {
                       border: OutlineInputBorder(),
                     ),
                     validator: (value) {
+                      //validator to check if form field is full or not
                       if (value != null && value.isEmpty) {
                         return 'Name MUST NOT BE EMPTY';
                       }
@@ -105,6 +125,7 @@ class _registerScreenState extends State<registerScreen> {
                       border: OutlineInputBorder(),
                     ),
                     validator: (value) {
+                      //Validator to check if form field is full or not
                       if (value != null && value.isEmpty) {
                         return 'E-mail MUST NOT BE EMPTY';
                       }
@@ -116,10 +137,10 @@ class _registerScreenState extends State<registerScreen> {
                   ),
                   TextFormField(
                     maxLength: 8,
+                    // max length for password form field is 8
                     keyboardType: TextInputType.number,
                     controller: RegisterPasswordController,
                     obscureText: passwordObscure,
-                    //This will obscure text dynamically
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Password',
@@ -128,21 +149,23 @@ class _registerScreenState extends State<registerScreen> {
                       prefixIcon: Icon(Icons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          // Based on passwordVisible state choose the icon
+                          // Based on passwordObscure state choose the icon
                           passwordObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                              ? Icons.visibility //show password
+                              : Icons.visibility_off, // hide password
                           color: Theme.of(context).primaryColorDark,
                         ),
                         onPressed: () {
-                          // Update the state i.e. toogle the state of passwordVisible variable
+                          // Update the state i.e. toggle the state of passwordObscure bool from true to false or otherwise
                           setState(() {
-                            passwordObscure = !passwordObscure;
+                            passwordObscure =
+                                !passwordObscure; //toggle bool state
                           });
                         },
                       ),
                     ),
                     validator: (value) {
+                      //Validator to check if password form field is full or not
                       if (value != null && value.isEmpty) {
                         return 'Password MUST NOT BE EMPTY';
                       }
@@ -153,18 +176,62 @@ class _registerScreenState extends State<registerScreen> {
                     height: 8.0,
                   ),
                   TextFormField(
+                    maxLength: 8,
+                    // max length for password form field is 8
+                    keyboardType: TextInputType.number,
+                    controller: ConfirmPasswordController,
+                    obscureText: passwordObscure,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Confirm Password',
+                      hintText: 'Confirm your password your password',
+                      // Here is key idea
+                      prefixIcon: Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          // Based on passwordObscure state choose the icon
+                          passwordObscure
+                              ? Icons.visibility //show password
+                              : Icons.visibility_off, // hide password
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        onPressed: () {
+                          // Update the state i.e. toggle the state of passwordObscure bool from true to false or otherwise
+                          setState(() {
+                            passwordObscure =
+                                !passwordObscure; //toggle bool state
+                          });
+                        },
+                      ),
+                    ),
+                    validator: (value) {
+                      //Validator to check if confirm password form field is full or not
+                      if (value != null && value.isEmpty) {
+                        return 'Confirm password MUST NOT BE EMPTY';
+                      }
+                      if (RegisterPasswordController ==
+                          ConfirmPasswordController) {
+                        return null;
+                      } else {
+                        return 'Passwords don\'t match try again';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 8.0),
+                  TextFormField(
+                    // max length for phone form field is 11
                     maxLength: 11,
                     keyboardType: TextInputType.phone,
                     controller: phoneController,
-                    //This will obscure text dynamically
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Phone No.',
                       hintText: 'Enter your phone number',
-                      // Here is key idea
                       prefixIcon: Icon(Icons.call_rounded),
                     ),
                     validator: (value) {
+                      //Validator for phone form field
                       if (value != null && value.isEmpty) {
                         return 'Phone MUST NOT BE EMPTY';
                       }
@@ -187,6 +254,7 @@ class _registerScreenState extends State<registerScreen> {
                         width: 20.0,
                       ),
                       DropdownButton<String>(
+                        //Drop down list to select gender and toggle between them(Male-Female)
                         value: dropdownValue,
                         icon: const Icon(Icons.arrow_drop_down_sharp),
                         iconSize: 30,
@@ -226,9 +294,8 @@ class _registerScreenState extends State<registerScreen> {
                         style: TextStyle(fontSize: 24, color: Colors.white),
                       ),
                       onPressed: () {
-                        // Validate returns true if the form is valid, or false otherwise.
+                        // Validate returns true if the form is valid, or false otherwise, if valid will create new user with e-mail and password
                         if (formKey.currentState!.validate()) {
-                          // If the form is valid, display a snack-bar. In the real world,
                           createUserWithEmailAndPassword();
                           Navigator.pop(
                             context,
