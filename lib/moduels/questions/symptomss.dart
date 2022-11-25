@@ -2,7 +2,6 @@ import 'package:covid_assistant/moduels/home/home_screen.dart';
 import 'package:covid_assistant/moduels/loadingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:kommunicate_flutter/kommunicate_flutter.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class symptomss extends StatefulWidget {
   @override
@@ -14,18 +13,18 @@ class _symptomssState extends State<symptomss> {
 
   //declaring the list of symptoms
   List<String> name = [
-    'Cough      سعال',
-    'Head ache      صداع الراس',
-    'Fever      حُمى',
-    'Muscle aches      آلام العضلات',
-    'Tiredness      التعب',
-    'Sneezing      العطس',
-    'Sore throat      إلتهاب الحلق',
-    'Runny nose      سيلان الأنف',
-    'Pink eyes      عيون وردية',
-    'Vomiting      التقيؤ',
-    'Diarrhea      إسهال',
-    'Loss of smell      فقدان حاسة الشم'
+    'Cough    سعال',
+    'Head ache    صداع الراس',
+    'Fever    حُمى',
+    'Muscle aches    آلام العضلات',
+    'Tiredness    التعب',
+    'Sneezing    العطس',
+    'Sore throat    إلتهاب الحلق',
+    'Runny nose    سيلان الأنف',
+    'Pink eyes    عيون وردية',
+    'Vomiting    التقيؤ',
+    'Diarrhea    إسهال',
+    'Loss of smell    فقدان حاسة الشم'
   ];
 
   //creating new empty list to store the selected symptoms
@@ -125,86 +124,98 @@ class _symptomssState extends State<symptomss> {
                                         child: Text('Ok')),
                                   ],
                                 ));
+                      } else if (selected.length < 7) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text('Select more symptoms!'),
+                                  content: Text(
+                                      'You have to select at least 7 symptoms to accurate your result'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text('Ok')),
+                                  ],
+                                ));
+                      } else if (selected.contains(
+                            'Cough    سعال',
+                          ) &&
+                          (selected.contains(
+                            'Fever    حُمى',
+                          )) &&
+                          (selected.contains('Sore throat    إلتهاب الحلق')) &&
+                          (selected
+                              .contains('Loss of smell    فقدان حاسة الشم'))) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  //creating alertdialog box to generate result
+                                  title: Text('Result'),
+                                  content: Text(
+                                      'Covid +Ve !\nyou can chat with DoctorBot to know what is the next step'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text('Cancel')),
+                                    TextButton(
+                                        // if "ok" button is pressed the chat will be called through below function
+                                        onPressed: () async {
+                                          try {
+                                            dynamic conversationObject = {
+                                              'appId':
+                                                  'bdddfbf44eef6a652137e9ab5c4c0cf'
+                                              // The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
+                                            };
+                                            dynamic result =
+                                                await KommunicateFlutterPlugin
+                                                    .buildConversation(
+                                                        conversationObject);
+                                            print(
+                                                "Conversation builder success : " +
+                                                    result.toString());
+                                          } on Exception catch (e) {
+                                            print(
+                                                "Conversation builder error occurred : " +
+                                                    e.toString());
+                                          }
+                                        },
+                                        child: Text('Ok'))
+                                  ],
+                                ));
                       } else {
-                        if (selected.contains('Cough      سعال') &&
-                            (selected.contains('Fever      حُمى')) &&
-                            (selected
-                                .contains('Sore throat      إلتهاب الحلق')) &&
-                            (selected.contains(
-                                'Loss of smell      فقدان حاسة الشم'))) {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    //creating alertdialog box to generate result
-                                    title: Text('Result'),
-                                    content: Text(
-                                        'Covid +Ve !\nyou can chat with DoctorBot to know what is the next step'),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text('Cancel')),
-                                      TextButton(
-                                          // if "ok" button is pressed the chat will be called through below function
-                                          onPressed: () async {
-                                            try {
-                                              dynamic conversationObject = {
-                                                'appId':
-                                                    'bdddfbf44eef6a652137e9ab5c4c0cf'
-                                                // The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
-                                              };
-                                              dynamic result =
-                                                  await KommunicateFlutterPlugin
-                                                      .buildConversation(
-                                                          conversationObject);
-                                              print(
-                                                  "Conversation builder success : " +
-                                                      result.toString());
-                                            } on Exception catch (e) {
-                                              print(
-                                                  "Conversation builder error occurred : " +
-                                                      e.toString());
-                                            }
-                                          },
-                                          child: Text('Ok'))
-                                    ],
-                                  ));
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text('Result'),
-                                    content: Text(
-                                        'Covid -Ve, its normal cold !\nyou can chat with DoctorBot to know what is the next step'),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text('Cancel')),
-                                      TextButton(
-                                          onPressed: () async {
-                                            try {
-                                              dynamic conversationObject = {
-                                                'appId':
-                                                    'bdddfbf44eef6a652137e9ab5c4c0cf'
-                                              };
-                                              dynamic result =
-                                                  await KommunicateFlutterPlugin
-                                                      .buildConversation(
-                                                          conversationObject);
-                                              print(
-                                                  "Conversation builder success : " +
-                                                      result.toString());
-                                            } on Exception catch (e) {
-                                              print(
-                                                  "Conversation builder error occurred : " +
-                                                      e.toString());
-                                            }
-                                          },
-                                          child: Text('Ok'))
-                                    ],
-                                  ));
-                        }
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text('Result'),
+                                  content: Text(
+                                      'Covid -Ve, its normal cold !\nyou can chat with DoctorBot to know what is the next step'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text('Cancel')),
+                                    TextButton(
+                                        onPressed: () async {
+                                          try {
+                                            dynamic conversationObject = {
+                                              'appId':
+                                                  'bdddfbf44eef6a652137e9ab5c4c0cf'
+                                            };
+                                            dynamic result =
+                                                await KommunicateFlutterPlugin
+                                                    .buildConversation(
+                                                        conversationObject);
+                                            print(
+                                                "Conversation builder success : " +
+                                                    result.toString());
+                                          } on Exception catch (e) {
+                                            print(
+                                                "Conversation builder error occurred : " +
+                                                    e.toString());
+                                          }
+                                        },
+                                        child: Text('Ok'))
+                                  ],
+                                ));
                       }
                     },
                     child: Text(
