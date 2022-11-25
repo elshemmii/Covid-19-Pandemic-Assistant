@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 12.0,
                   ),
                   TextFormField(
-                    maxLength: 8,
+                    maxLength: 9,
                     keyboardType: TextInputType.text,
                     controller: passwordController,
                     //password toggle bool
@@ -124,7 +124,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     //Validator for pass form field
                     validator: (value) {
                       if (value != null && value.isEmpty) {
-                        return 'PASSWORD MUST NOT BE EMPTY';
+                        return 'MUST NOT BE EMPTY';
+                      }else if(value!.length<6){
+                        return 'Must be min. 6 digits length';
                       }
                       return null;
                     },

@@ -1,4 +1,5 @@
 import 'package:covid_assistant/moduels/login/login_screen.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../auth.dart';
@@ -16,10 +17,10 @@ class _registerScreenState extends State<registerScreen> {
   final TextEditingController RegisterEmailController =
       TextEditingController(); // email register - form field controller
 
-  final TextEditingController RegisterPasswordController =
+  var RegisterPasswordController =
       TextEditingController(); //  password register - form field controller
 
-  final TextEditingController ConfirmPasswordController =
+  var ConfirmPasswordController =
       TextEditingController(); //confirm password register - form field controller
 
   var phoneController = TextEditingController(); // phone form field controller
@@ -77,6 +78,7 @@ class _registerScreenState extends State<registerScreen> {
         child: Center(
           child: SingleChildScrollView(
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +107,9 @@ class _registerScreenState extends State<registerScreen> {
                     validator: (value) {
                       //validator to check if form field is full or not
                       if (value != null && value.isEmpty) {
-                        return 'Name MUST NOT BE EMPTY';
+                        return 'MUST NOT BE EMPTY';
+                      } else if (value!.length < 7) {
+                        return 'Name must be min. 7 chars';
                       }
                       return null;
                     },
@@ -124,19 +128,16 @@ class _registerScreenState extends State<registerScreen> {
                       prefixIcon: Icon(Icons.email_rounded),
                       border: OutlineInputBorder(),
                     ),
-                    validator: (value) {
-                      //Validator to check if form field is full or not
-                      if (value != null && value.isEmpty) {
-                        return 'E-mail MUST NOT BE EMPTY';
-                      }
-                      return null;
-                    },
+                    validator: (email) =>
+                        email != null && !EmailValidator.validate(email)
+                            ? 'Enter a valid e-mail address' // form not valid
+                            : null, // form valid
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   TextFormField(
-                    maxLength: 8,
+                    maxLength: 9,
                     // max length for password form field is 8
                     keyboardType: TextInputType.number,
                     controller: RegisterPasswordController,
@@ -167,7 +168,9 @@ class _registerScreenState extends State<registerScreen> {
                     validator: (value) {
                       //Validator to check if password form field is full or not
                       if (value != null && value.isEmpty) {
-                        return 'Password MUST NOT BE EMPTY';
+                        return 'MUST NOT BE EMPTY';
+                      } else if (value!.length < 6) {
+                        return 'Password must be min. 6 digits length';
                       }
                       return null;
                     },
@@ -176,7 +179,7 @@ class _registerScreenState extends State<registerScreen> {
                     height: 8.0,
                   ),
                   TextFormField(
-                    maxLength: 8,
+                    maxLength: 9,
                     // max length for password form field is 8
                     keyboardType: TextInputType.number,
                     controller: ConfirmPasswordController,
@@ -184,7 +187,7 @@ class _registerScreenState extends State<registerScreen> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Confirm Password',
-                      hintText: 'Confirm your password your password',
+                      hintText: 'Confirm your password',
                       // Here is key idea
                       prefixIcon: Icon(Icons.lock),
                       suffixIcon: IconButton(
@@ -207,14 +210,14 @@ class _registerScreenState extends State<registerScreen> {
                     validator: (value) {
                       //Validator to check if confirm password form field is full or not
                       if (value != null && value.isEmpty) {
-                        return 'Confirm password MUST NOT BE EMPTY';
+                        return 'MUST NOT BE EMPTY';
+                      } else if (value!.length < 6) {
+                        return 'Password must be min. 6 digits length';
+                      } else if (ConfirmPasswordController.text !=
+                          RegisterPasswordController.text) {
+                        return 'Passwords does not match';
                       }
-                      if (RegisterPasswordController ==
-                          ConfirmPasswordController) {
-                        return null;
-                      } else {
-                        return 'Passwords don\'t match try again';
-                      }
+
                       return null;
                     },
                   ),
@@ -233,7 +236,9 @@ class _registerScreenState extends State<registerScreen> {
                     validator: (value) {
                       //Validator for phone form field
                       if (value != null && value.isEmpty) {
-                        return 'Phone MUST NOT BE EMPTY';
+                        return 'MUST NOT BE EMPTY';
+                      }else if(value!.length<11){
+                        return'Enter valid phone no.';
                       }
                       return null;
                     },
