@@ -163,7 +163,7 @@ class _symptomssState extends State<symptomss> {
                                           try {
                                             dynamic conversationObject = {
                                               'appId':
-                                                  'bdddfbf44eef6a652137e9ab5c4c0cf'
+                                                  '2864b06793ff3c86d29317cbb1e0f0a07'
                                               // The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
                                             };
                                             dynamic result =
@@ -198,7 +198,8 @@ class _symptomssState extends State<symptomss> {
                                           try {
                                             dynamic conversationObject = {
                                               'appId':
-                                                  'bdddfbf44eef6a652137e9ab5c4c0cf'
+                                                  '2864b06793ff3c86d29317cbb1e0f0a07'
+                                              // The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
                                             };
                                             dynamic result =
                                                 await KommunicateFlutterPlugin
